@@ -1,0 +1,35 @@
+<launch>
+  <!-- Run explore_lite autonomous exploration -->
+  <node pkg="explore_lite" type="explore" name="explore" output="screen">
+    <param name="map_topic" value="/map" />
+    <param name="costmap_topic" value="/move_base/local_costmap/costmap" />
+    <param name="move_base_topic" value="/move_base" />
+  </node>
+
+  <!-- Run image capture and pose logger -->
+  <node
+    pkg="image_logger"
+    type="image_capture_and_pose_logger.py"
+    name="image_logger"
+    output="screen">
+    <param name="save_dir" value="/tmp/captured_images" />
+    <param name="interval" value="5.0" />
+  </node>
+
+  <!-- Run object detector and landmark logger -->
+  <node
+    pkg="image_logger"
+    type="object_detector_and_logger.py"
+    name="object_detector"
+    output="screen">
+    <param name="image_topic" value="/zed2/zed_node/rgb/image_rect_color" />
+  </node>
+
+  <!-- Run controller node to save landmarks -->
+  <node
+    pkg="image_logger"
+    type="controller_node.py"
+    name="controller_node"
+    output="screen" />
+</launch>
+

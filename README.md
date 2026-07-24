@@ -10,7 +10,17 @@ voice/text command interfaces -- built on ROS.
 
 ## Demo
 
-![Map demo](docs/media/map_demo.png)
+Multi-floor SLAM maps generated during autonomous exploration:
+
+| Upstairs | Downstairs |
+|---|---|
+| ![Upstairs map](docs/media/upstairs_map.png) | ![Downstairs map](docs/media/downstairs_map.png) |
+
+Robot's-eye view during a capture run:
+
+| | | |
+|---|---|---|
+| ![Sample capture 1](docs/media/sample_capture_1.jpg) | ![Sample capture 2](docs/media/sample_capture_2.jpg) | ![Sample capture 3](docs/media/sample_capture_3.jpg) |
 
 [Watch the demo video](docs/media/demo_video.mp4)
 

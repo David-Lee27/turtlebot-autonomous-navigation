@@ -22,7 +22,7 @@ Robot's-eye view during a capture run:
 |---|---|---|
 | ![Sample capture 1](docs/media/sample_capture_1.jpg) | ![Sample capture 2](docs/media/sample_capture_2.jpg) | ![Sample capture 3](docs/media/sample_capture_3.jpg) |
 
-[Watch the autonomous navigation clip](docs/media/nav_clip.mp4)
+![Autonomous navigation demo](docs/media/nav_clip.gif)
 
 ## What it does
 

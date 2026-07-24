@@ -1,19 +1,17 @@
 <launch>
-  <!-- Run explore_lite autonomous exploration -->
-  <node pkg="explore_lite" type="explore" name="explore" output="screen">
-    <param name="map_topic" value="/map" />
-    <param name="costmap_topic" value="/move_base/local_costmap/costmap" />
-    <param name="move_base_topic" value="/move_base" />
-  </node>
+  <arg name="floor" default="downstairs" />
 
-  <!-- Run image capture and pose logger -->
+  <!-- Landmarks file selection based on floor -->
+  <arg name="landmarks_file" default="$(eval '/home/david/habitat_ws/src/image_logger/scripts/downstairs_landmarks.yaml' if arg('floor') == 'downstairs' else '/home/david/habitat_ws/src/image_logger/scripts/upstairs_landmarks.yaml')" />
+
+  <!-- Run explore_lite for autonomous exploration -->
   <node
-    pkg="image_logger"
-    type="image_capture_and_pose_logger.py"
-    name="image_logger"
+    pkg="explore_lite"
+    type="explore"
+    name="explore"
     output="screen">
-    <param name="save_dir" value="/tmp/captured_images" />
-    <param name="interval" value="5.0" />
+    <param name="planner_frequency" value="1.0" />
+    <param name="planner_patience" value="5.0" />
   </node>
 
   <!-- Run object detector and landmark logger -->
@@ -23,6 +21,7 @@
     name="object_detector"
     output="screen">
     <param name="image_topic" value="/zed2/zed_node/rgb/image_rect_color" />
+    <param name="landmarks_file" value="$(arg landmarks_file)" />
   </node>
 
   <!-- Run controller node to save landmarks -->
@@ -30,6 +29,8 @@
     pkg="image_logger"
     type="controller_node.py"
     name="controller_node"
-    output="screen" />
+    output="screen">
+    <param name="landmarks_file" value="$(arg landmarks_file)" />
+  </node>
 </launch>
 

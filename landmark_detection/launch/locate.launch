@@ -1,0 +1,48 @@
+<launch>
+  <!-- Floor argument -->
+  <arg name="floor" default="downstairs" />
+
+  <!-- Command mode: "voice" or "typed" -->
+  <arg name="command_mode" default="voice" />
+
+  <!-- Upstairs and Downstairs map files -->
+  <arg name="upstairs_map_file" default="/home/david/catkin_ws/maps/upstairs.yaml" />
+  <arg name="downstairs_map_file" default="/home/david/catkin_ws/maps/downstairs.yaml" />
+
+  <!-- Conditionally set the active map file -->
+  <arg name="map_file" default="$(eval arg('floor') == 'downstairs' and arg('downstairs_map_file') or arg('upstairs_map_file'))" />
+
+  <!-- Map Server -->
+  <node pkg="map_server" type="map_server" name="map_server_main"
+        args="$(arg map_file)" output="screen" />
+
+  <!-- Run AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <param name ="use_map_topic" value ="true" />
+    <param name="laser_max_range" value="10.0" />
+  </node>
+
+   <!-- Run move_base -->
+   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+       <rosparam file="$(find navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+       <rosparam file="$(find navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+       <rosparam file="$(find navigation)/config/local_costmap_params.yaml" command="load" />
+       <rosparam file="$(find navigation)/config/global_costmap_params.yaml" command="load" />
+       <rosparam file="$(find navigation)/config/base_local_planner_params.yaml" command="load" />
+   </node> 
+
+  <!-- Voice Command Navigator (only if command_mode is 'voice') -->
+  <group if="$(eval arg('command_mode') == 'voice')">
+    <node pkg="image_logger" type="voice_command_navigator.py" name="voice_command_navigator_name" output="screen" />
+  </group>
+
+  <!-- Typed Command Navigator (only if command_mode is 'typed') -->
+  <group if="$(eval arg('command_mode') == 'typed')">
+    <node pkg="image_logger" type="typed_command_navigator.py" name="typed_command_navigator_name" output="screen" />
+  </group>
+
+  <!-- Run RViz -->
+   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find navigation)/rviz/navigation.rviz"/>
+   
+</launch>
+

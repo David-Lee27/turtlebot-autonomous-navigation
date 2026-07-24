@@ -1,0 +1,8 @@
+<launch>
+  <!-- Launch image capture and pose logger -->
+  <node pkg="image_logger" type="image_capture_and_pose_logger.py" name="image_capture_and_pose_logger" output="screen" />
+
+  <!-- Launch landmark detection and saving -->
+  <node pkg="image_logger" type="landmark_saver.py" name="landmark_saver" output="screen" />
+</launch>
+

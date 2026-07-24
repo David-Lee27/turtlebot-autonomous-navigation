@@ -1,0 +1,17 @@
+<launch>
+  <arg name="map_file" />
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <param name="use_sim_time" value="false" />
+    <param name="scan_topic" value="scan3" />
+    <param name="base_frame_id" value="base_link" />
+    <param name="odom_frame_id" value="odom" />
+    <param name="global_frame_id" value="map" />
+    <param name="yaml_filename" value="$(arg map_file)" />
+  </node>
+
+  <!-- Static map->odom transform -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 map odom" />
+</launch>
+

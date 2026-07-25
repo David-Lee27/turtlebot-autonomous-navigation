@@ -24,6 +24,8 @@ Robot's-eye view during a capture run:
 
 ![Autonomous navigation demo](docs/media/nav_clip.gif)
 
+[Watch the full demo: startup, real-time mapping, and autonomous navigation](docs/media/full_demo.mp4)
+
 ## What it does
 
 - Real-time landmark detection using YOLOv5 over a ROS image pipeline,
